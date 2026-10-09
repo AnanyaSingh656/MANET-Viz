@@ -1,0 +1,3 @@
+protocol,packets_sent,packets_received,packets_lost,pdr_percent,packet_loss_percent,average_hops,average_delay_ms,routing_overhead
+shortest_path,20,20,0,100.0,0.0,1.0,12.46,0
+aodv,20,20,0,100.0,0.0,1.0,12.46,120
