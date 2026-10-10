@@ -66,19 +66,23 @@ class NetworkView(QWidget):
                 font-size: 12px;
             }
 
+            
             QGroupBox {
                 border: 1px solid #34445c;
                 border-radius: 9px;
-                margin-top: 10px;
-                padding: 10px;
+                margin-top: 18px;
+                padding: 12px 8px 8px 8px;
                 font-weight: bold;
                 color: #9ec5fe;
             }
 
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 4px;
+                subcontrol-position: top left;
+                left: 12px;
+                top: 0px;
+                padding: 0 6px;
+                background-color: #101827;
             }
 
             QComboBox, QTextEdit {
@@ -190,8 +194,28 @@ class NetworkView(QWidget):
         self.scene = QGraphicsScene(self)
         self.scene.setSceneRect(0, 0, 820, 470)
 
+        
         self.view = QGraphicsView(self.scene)
-        self.view.setMinimumSize(600, 400)
+        self.view.setMinimumSize(0, 0)
+
+        self.view.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+        self.view.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+
+        self.view.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )
+        self.view.setSizePolicy(
+            self.view.sizePolicy().Policy.Expanding,
+            self.view.sizePolicy().Policy.Expanding
+        )
+
+
+
+
         self.view.setStyleSheet("""
             QGraphicsView {
                 background: #0e1726;
@@ -337,6 +361,17 @@ class NetworkView(QWidget):
 
     def log_event(self, message):
         self.log.append(message)
+
+    
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+
+        if hasattr(self, "view") and hasattr(self, "scene"):
+            self.view.fitInView(
+                self.scene.sceneRect(),
+                Qt.AspectRatioMode.KeepAspectRatio
+            )
+
 
     def redraw_network(self):
         self.scene.clear()
